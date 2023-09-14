@@ -37,3 +37,17 @@ DATA_INGESTION_TGZ_DOWNLOAD_DIR_KEY = 'tgz_download_dir'
 DATA_INGESTION_INGESTED_DIR_NAME_KEY = 'ingested_dir'
 DATA_INGESTION_TRAIN_DIR_KEY = 'ingested_train_dir'
 DATA_INGESTION_TEST_DIR_KEY = 'ingested_test_dir'
+
+# Feature Generator
+COLUMN_TOTAL_ROOMS = 'total_rooms'
+COLUMN_POPULATION = 'population'
+COLUMN_HOUSEHOLDS = 'households'
+COLUMN_TOTAL_BEDROOM = 'total_bedrooms'
+
+# Data Transformation
+NUMERICAL_COLUMN_KEY = 'numerical_columns'
+CATEGORICAL_COLUMN_KEY = 'categorical_columns'
+TARGET_COLUMN_KEY = 'target_column'
+
+# Util
+DATASET_SCHEMA_COLUMNS_KEY=  'columns'
