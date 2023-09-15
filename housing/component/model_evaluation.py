@@ -1,4 +1,6 @@
+# housing/component/model_evaluation.py
 
+# Import required libraries and packages
 import os
 import sys
 from housing.logger import logging
@@ -26,19 +28,35 @@ class ModelEvaluation:
             raise CustomException(e, sys) from e
         
     def get_best_model(self):
+        """
+        Retrieves the best model from the model evaluation file.
+
+        Returns:
+            The best model object if found in the evaluation file, otherwise None.
+        
+        Raises:
+            CustomException: If an error occurs during the extraction process.
+        """
         try:
             model = None
             model_evaluation_file_path = self.model_evaluation_config.model_evaluation_file_path
+
+            # Create an empty evaluation file if it doesn't exist
             if not os.path.exists(model_evaluation_file_path):
                 write_yaml(file_path=model_evaluation_file_path, data={})
                 return model
+
+            # Read the evaluation file
             model_eval_file_content = read_yaml(file_path=model_evaluation_file_path)
 
+            # Create an empty dictionary if the file is empty
             model_eval_file_content = dict() if model_eval_file_content is None else model_eval_file_content
 
+            # Return None if the best model is not found in the evaluation file
             if BEST_MODEL_KEY not in model_eval_file_content:
                 return model
 
+            # Load and return the best model
             model = load_object(file_path=model_eval_file_content[BEST_MODEL_KEY][MODEL_PATH_KEY])
             return model
         except Exception as e:

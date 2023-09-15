@@ -1,3 +1,6 @@
+# housing/component/feature_generator.py
+
+# Import required libraries and packages
 import sys
 from sklearn.base import BaseEstimator, TransformerMixin
 
@@ -45,50 +48,50 @@ class FeatureGenerator(BaseEstimator, TransformerMixin):
         """
         return self
     
-def transform(self, X, y=None):
-    """
-    Transforms the input data by generating additional features based on the provided feature columns.
+    def transform(self, X, y=None):
+        """
+        Transforms the input data by generating additional features based on the provided feature columns.
 
-    Parameters:
-        X (numpy.ndarray): The input feature matrix.
-        y (numpy.ndarray, optional): The target labels. Defaults to None.
+        Parameters:
+            X (numpy.ndarray): The input feature matrix.
+            y (numpy.ndarray, optional): The target labels. Defaults to None.
 
-    Returns:
-        numpy.ndarray: The transformed feature matrix with additional generated features.
+        Returns:
+            numpy.ndarray: The transformed feature matrix with additional generated features.
 
-    Raises:
-        CustomException: If an error occurs during the extraction process.
-    """
-    
-    try:
-        # Calculate the number of rooms per household by dividing the total number of rooms by the number of households
-        room_per_household = X[:, self.total_rooms_ix] / X[:, self.households_ix]
+        Raises:
+            CustomException: If an error occurs during the extraction process.
+        """
         
-        # Calculate the population per household by dividing the total population by the number of households
-        population_per_household = X[:, self.population_ix] / X[:, self.households_ix]
-        
-        if self.add_bedrooms_per_room:
-            # Calculate the number of bedrooms per room by dividing the total number of bedrooms by the total number of rooms
-            bedrooms_per_room = X[:, self.total_bedrooms_ix] / X[:, self.total_rooms_ix]
+        try:
+            # Calculate the number of rooms per household by dividing the total number of rooms by the number of households
+            room_per_household = X[:, self.total_rooms_ix] / X[:, self.households_ix]
             
-            # Generate the transformed feature matrix by concatenating the original feature matrix with the generated features
-            generated_feature = np.c_[
-                X,
-                room_per_household,
-                population_per_household,
-                bedrooms_per_room
-            ]
-        else:
-            # Generate the transformed feature matrix by concatenating the original feature matrix with the generated features
-            generated_feature = np.c_[
-                X,
-                room_per_household,
-                population_per_household
-            ]
+            # Calculate the population per household by dividing the total population by the number of households
+            population_per_household = X[:, self.population_ix] / X[:, self.households_ix]
+            
+            if self.add_bedrooms_per_room:
+                # Calculate the number of bedrooms per room by dividing the total number of bedrooms by the total number of rooms
+                bedrooms_per_room = X[:, self.total_bedrooms_ix] / X[:, self.total_rooms_ix]
+                
+                # Generate the transformed feature matrix by concatenating the original feature matrix with the generated features
+                generated_feature = np.c_[
+                    X,
+                    room_per_household,
+                    population_per_household,
+                    bedrooms_per_room
+                ]
+            else:
+                # Generate the transformed feature matrix by concatenating the original feature matrix with the generated features
+                generated_feature = np.c_[
+                    X,
+                    room_per_household,
+                    population_per_household
+                ]
+            
+            # Return the transformed feature matrix
+            return generated_feature
         
-        # Return the transformed feature matrix
-        return generated_feature
-    
-    except Exception as e:
-        # Raise a custom exception if an error occurs during the extraction process
-        raise CustomException(e, sys) from e
+        except Exception as e:
+            # Raise a custom exception if an error occurs during the extraction process
+            raise CustomException(e, sys) from e
